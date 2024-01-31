@@ -1,6 +1,7 @@
 import { Link} from "react-router-dom";
 import { useAppContext } from "../contexts/AppContext";
 import SignOutButton from "./SignOutButton";
+
 const Header = () => {
     const {isLoggedIn}= useAppContext();
     return (
@@ -17,6 +18,12 @@ const Header = () => {
                     <Link className="flex items-center text-white px-3 font-bold hover: bg-blue-600" to ="/my-hotels">
                         My Hotels
                         </Link>
+                    <Link className="flex items-center text-white px-3 font-bold hover: bg-blue-600" to ="/Profile">
+                        My Profile
+                        </Link>
+                    {/* <Link className="flex items-center text-white px-3 font-bold hover: bg-blue-600" to ="/UsersPage">
+                        User Profile
+                        </Link> */}
                     <SignOutButton />
 
                     </>)
@@ -29,6 +36,7 @@ const Header = () => {
                     )}
                     
                 </span>
+                
             </div>
         </div>
 

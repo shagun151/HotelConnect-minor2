@@ -7,7 +7,6 @@ import jwt from "jsonwebtoken";
 import verifyToken from "../middleware/auth"
 
 const router = express.Router();
-
 router.post("/login",[
     check("email", "Email is required").isEmail(),
     check("password","Password with 6 or more characters required").isLength({
@@ -21,6 +20,9 @@ router.post("/login",[
     const {email,password}= req.body;
 
     try{
+        
+        console.log("Received email:", email);
+        console.log("Received password:", password);
         const user = await User.findOne({email})
         if(!user){
             return res.status(400).json({message: "Invalid Credentials"});
@@ -35,6 +37,7 @@ router.post("/login",[
             expiresIn:"1d",
         }
             );
+
             res.cookie("auth_token", token, {
                 httpOnly:true,
                 secure: process.env.NODE_ENV ==="production",
@@ -49,8 +52,30 @@ router.post("/login",[
     }
 );
 
-router.get("/validate-token", verifyToken, (req: Request, res:Response)=>{
-    res.status(200).send({userId: req.userId})
+router.get("/validate-token", verifyToken, async (req: Request, res:Response)=>{
+    //res.status(200).send({userId: req.userId})
+    try {
+        const userId = req.userId;
+        const user = await User.findById(userId);
+    
+        if (!user) {
+          // If user is not found
+          return res.status(404).json({ message: "User not found" });
+        }
+        // Send the user details along with the status
+        res.status(200).json({
+          status: "success",
+          user: {
+            userId: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+          },
+        });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal Server Error" });
+      }
 
 });
 

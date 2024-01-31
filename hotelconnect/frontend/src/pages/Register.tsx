@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 export type RegisterFormData = {
     firstName: string;
     lastName: string;
-    email: string;
+    emailOrPhone: string;
     password: string;
     confirmPassword: string;
   };
@@ -64,12 +64,16 @@ const Register = ()=>{
           <label className="text-gray-700 text-sm font-bold flex-1">
             Email
             <input
-            type="email"
+            type="text"
             className="border rounded w-full py-1 px-2 font-normal"
-            {...register("email",{required: "This field is required"})}
+            {...register("emailOrPhone",{required: "This field is required",
+          validate:(value)=>
+        value.includes("@gmail.com")||
+        (value.match(/^\d{10}$/)&& value.length==10)||
+      "Please enter valid gmail /phone",})}
             ></input>
-            {errors.email &&(
-            <span className="text-red-500">{errors.email.message}</span>
+            {errors.emailOrPhone  &&(
+            <span className="text-red-500">{errors.emailOrPhone.message}</span>
           )}
           </label>
           <label className="text-gray-700 text-sm font-bold flex-1">
