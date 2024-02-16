@@ -15,6 +15,7 @@ router.post(
     check("password", "Password with 6 0r more characters required ").isLength({
         min:6
     }),
+    check("phone","phone number is required").isLength({min:10}),
 
 ] ,
 async( req:Request,res:Response)=>{
@@ -53,7 +54,38 @@ async( req:Request,res:Response)=>{
         res.status(500).send({ message: "Something went wrong" });
     }
  });
- 
+//
+
+// // Route to fetch all users
+// router.get('/all', async (req, res) => {
+//   try {
+//     const users = await User.find();
+//     res.status(200).json(users);
+//   } catch (error) {
+//     console.error('Error fetching users:', error);
+//     res.status(500).json({ message: 'Internal Server Error' });
+//   }
+// });
+
+// // Route to search users by phone number 
+// router.get('/search/phone/:phone', async (req, res) => {
+//   const { phone } = req.params;
+//   try {
+   
+//     const user = await User.findOne({ phone });
+//     if (!user) {
+//       console.log('User not found with phone number:', phone);
+//       return res.status(404).json({ message: 'User not found' });
+//     }
+
+//     res.status(200).json(user);
+//   } catch (error) {
+//     console.error('Error searching users by phone number:', error);
+//     res.status(500).json({ message: 'Internal Server Error' });
+//   }
+// });
+
+
 
  export default router;
 

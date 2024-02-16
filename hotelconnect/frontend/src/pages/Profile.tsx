@@ -26,6 +26,8 @@ const Profile = () => {
           <p className="font-bold text-lg">First Name: {userData.user.firstName}</p>
           <p className="font-bold text-lg">Last Name: {userData.user.lastName}</p>
           <p className="font-bold text-lg">Email: {userData.user.email}</p>
+          <p className="font-bold text-lg">Phone Number: {userData.user.phone}</p>
+
          
         </div>
       )}

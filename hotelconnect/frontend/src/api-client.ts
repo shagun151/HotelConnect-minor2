@@ -22,7 +22,7 @@ export const register = async (formData:RegisterFormData) => {
 };
 
 export const signIn = async (formData: SignInFormData) => {
-     
+  try{   
     const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
       method: "POST",
       credentials: "include",
@@ -37,19 +37,42 @@ export const signIn = async (formData: SignInFormData) => {
         throw new Error(body.message)
     }
     return body;
+}catch (error) {
+    console.error("Error during sign-in:", error);
+    throw new Error("Failed to sign in");
+  }
 };
-export const validateToken = async ()=>{
-    const response= await fetch (`${API_BASE_URL}/api/auth/validate-token`, {
-        credentials: "include",
-    });
 
-    console.log('Response Status:', response.status);
-    
-    if (!response.ok){
-        throw new Error("Token invalid");
+
+export const validateToken = async () => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/auth/validate-token`, {
+            credentials: "include",
+        });
+
+        console.log('Response Status:', response.status);
+
+        if (!response.ok) {
+            let errorData;
+            try {
+                errorData = await response.json();
+            } catch (jsonError) {
+                console.error('Error parsing JSON from server:', jsonError);
+            }
+
+            const errorMessage = errorData ? errorData.message : 'Unknown error';
+            console.error('Server Error:', errorData);
+            throw new Error(`Token invalid. Server message: ${errorMessage}`);
+        }
+
+        return response.json();
+    } catch (error:any) {
+        console.error('Error during token validation:', error.message);
+        throw error;
     }
-    return response.json();
 };
+
+//
 
 export const signOut = async ()=>{
     const  response = await fetch (`${API_BASE_URL}/api/auth/logout`,{

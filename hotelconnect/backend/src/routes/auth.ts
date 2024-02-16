@@ -8,7 +8,6 @@ import verifyToken from "../middleware/auth"
 
 const router = express.Router();
 router.post("/login",[
-    check("email", "Email is required").isEmail(),
     check("password","Password with 6 or more characters required").isLength({
         min: 6,
     }),
@@ -17,13 +16,13 @@ router.post("/login",[
     if(!errors.isEmpty()){
         return res.status(400).json({ messages: errors.array()})
     }
-    const {email,password}= req.body;
+    const {emailOrPhone,password}= req.body;
 
     try{
         
-        console.log("Received email:", email);
+        console.log("Received email:", emailOrPhone);
         console.log("Received password:", password);
-        const user = await User.findOne({email})
+        const user = await User.findOne({$or: [{ email: emailOrPhone }, { phone: emailOrPhone }],});
         if(!user){
             return res.status(400).json({message: "Invalid Credentials"});
         }
@@ -70,6 +69,7 @@ router.get("/validate-token", verifyToken, async (req: Request, res:Response)=>{
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
+            phone:user.phone,
           },
         });
       } catch (error) {

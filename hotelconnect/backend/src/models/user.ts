@@ -7,6 +7,7 @@ export type UserType = {
     password: string;
     firstName: string;
     lastName: string;
+    phone:string;
 };
 
 const userSchema = new mongoose.Schema({
@@ -14,6 +15,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
+  phone: {type:String,required:true},
 });
 
 userSchema.pre("save", async function(next){

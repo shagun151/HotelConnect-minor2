@@ -44,6 +44,8 @@ import Profile from "./pages/Profile";
        <Profile/>
       </Layout>
     }/>
+     
+     
     
         <Route path="*" element={<Navigate to="/"/>}/>
         </Routes>

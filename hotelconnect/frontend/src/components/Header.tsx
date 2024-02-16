@@ -21,9 +21,6 @@ const Header = () => {
                     <Link className="flex items-center text-white px-3 font-bold hover: bg-blue-600" to ="/Profile">
                         My Profile
                         </Link>
-                    {/* <Link className="flex items-center text-white px-3 font-bold hover: bg-blue-600" to ="/UsersPage">
-                        User Profile
-                        </Link> */}
                     <SignOutButton />
 
                     </>)
